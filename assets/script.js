@@ -26,10 +26,35 @@ function isValidEmail(email){
     return re.test(String(email).toLowerCase());
 };
 
+// check required fields
+function checkRequired(inputArr){
+    // use high order array method to loop through array
+    inputArr.forEach(function(input){
+        if(input.value.trim()=== ''){
+            showError(input, `${getFieldName(input)} is required`)
+        } else {
+            showSuccess(input);
+        }
+
+    });
+
+};
+
+// Get fieldname
+function getFieldName(input){
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+
+};
+
 // Event listeners
 form.addEventListener('submit', function(e){
     e.preventDefault();
-    // Check username
+    // use check required function to check array of fields
+    checkRequired([username, email, password, password2]);
+    
+    /* 
+    !!! If you would prefer to use if statements to validate code use this:
+    Check username
     if(username.value === ''){
         showError(username, 'Username is required.');
     } else {
@@ -57,4 +82,5 @@ form.addEventListener('submit', function(e){
     } else {
         showSuccess(password2);
     }
+    */
 });
