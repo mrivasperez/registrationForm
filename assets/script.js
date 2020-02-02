@@ -21,9 +21,13 @@ function showSuccess(input){
 }
 
 // Check email is valid
-function isValidEmail(email){
+function checkEmail(input){
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+    if (re.test(input.value.trim())){
+        showSuccess(input);
+    } else {
+        showError(input, 'Email is not valid.');
+    };
 };
 
 // check required fields
@@ -40,6 +44,15 @@ function checkRequired(inputArr){
 
 };
 
+//Check input length w/ mix max values
+function checkLength(input, min, max){
+    if (input.value.length < min || input.value.lenght > max) {
+        showError(input, `${getFieldName(input)} must have ${min} to ${max} characters`);
+    } else {
+        showSuccess(input);
+    };
+};
+
 // Get fieldname
 function getFieldName(input){
     return input.id.charAt(0).toUpperCase() + input.id.slice(1);
@@ -51,6 +64,9 @@ form.addEventListener('submit', function(e){
     e.preventDefault();
     // use check required function to check array of fields
     checkRequired([username, email, password, password2]);
+    checkLength(username, 3, 15);
+    checkLength(password, 6, 25);
+    checkEmail(email);
     
     /* 
     !!! If you would prefer to use if statements to validate code use this:
