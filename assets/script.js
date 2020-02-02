@@ -47,11 +47,20 @@ function checkRequired(inputArr){
 //Check input length w/ mix max values
 function checkLength(input, min, max){
     if (input.value.length < min || input.value.lenght > max) {
-        showError(input, `${getFieldName(input)} must have ${min} to ${max} characters`);
+        showError(input, `${getFieldName(input)} must have ${min} to ${max} characters.`);
     } else {
         showSuccess(input);
     };
 };
+
+// Password validator
+function checkPasswordsMath(input1, input2) {
+    if(input1.value !== input2.value){
+        showError(input2, 'Passwords do not match.')
+    } else if (input2.value === ''){
+        showError(input2, 'Please confirm your password.')
+    } 
+}
 
 // Get fieldname
 function getFieldName(input){
@@ -63,10 +72,12 @@ function getFieldName(input){
 form.addEventListener('submit', function(e){
     e.preventDefault();
     // use check required function to check array of fields
-    checkRequired([username, email, password, password2]);
+    checkPasswordsMath(password, password2);
+    checkRequired([username, email, password]);
     checkLength(username, 3, 15);
     checkLength(password, 6, 25);
     checkEmail(email);
+
     
     /* 
     !!! If you would prefer to use if statements to validate code use this:
